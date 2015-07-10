@@ -1,0 +1,108 @@
+# -*- sh -*-
+#[[ -z ${MY_BASHRC_$SHLVL} ]] && CYG_SYS_BASHRC="1" || return
+
+if [ -n "$ZSH_VERSION" ]; then
+#======= ZSH PROMPT =======
+    autoload promptinit
+    promptinit
+    prompt adam2
+#======= ZSH keybindings =======
+    bindkey '^[[1;5C' emacs-forward-word
+    bindkey '^[[1;5D' emacs-backward-word
+    bindkey '^[[F'    end-of-line
+    bindkey '^[[H'    beginning-of-line
+    bindkey "^[[3~"   delete-char
+    bindkey "^[3;5~"  delete-char
+fi
+
+
+#======== VARIABLES ===========
+#=== PATH ===
+[ -z "$(echo "$PATH" | grep "~/scripts")" ] &&
+	PATH="$PATH":"~/scripts"
+
+
+#=== xeon addres ===
+XEON=feelus@sanc.jinr.ru
+XEONSVN=svn+ssh://$XEON/usr/local/svn/sanc/fortran
+BASTION=fuskov@bastion.desy.de
+NAFHHH=fuskov@nafhh-atlas03.desy.de
+
+#=== runcpp options ===
+export RUNCPP_OPTIONS="-I$YADISK_PATH/_programming/_src/include -std=c++11"
+
+#=== LANGuage ===
+export LANG=ru_RU.UTF-8
+export LANGUAGE=ru
+export LC_NUMERIC=en_US.UTF-8
+
+#======== SELF ALIASES ========
+#=== ls ===
+alias ls="ls --human-readable --escape --color=auto --group-directories-first"
+alias ll="ls -Al"
+alias la="ls -A"
+
+#=== cd ===
+#alias cd='cd -P'
+alias ..="cd .."
+alias ....='cd ../..'
+alias ......="cd ../../.."
+alias ........="cd ../../../.."
+alias ..........="cd ../../../../.."
+alias ............="cd ../../../../../.."
+alias ..............="cd ../../../../../../.."
+alias ................="cd ../../../../../../../.."
+
+#=== grep ===
+alias grep='grep --color=auto'
+
+#======== MY ALIASES ========
+source ~/scripts/aliases-and-functions
+
+alias cd=mycd
+alias dirs='dirs -p'
+
+#=== cygserver ===
+#echo cygwin threads, run by superuser
+#[ "$(uname -o)" = Cygwin ] && reg query "hku\S-1-5-19" >/dev/nul 2>/dev/nul &&
+#        cygrunsrv -S cygserver #&& echo set for cygwin
+
+
+#=== mycd ===
+mycd()
+{
+    local dirok=0
+    [ "$(pwd)" = "$(pwd -P)" ] && dirok=1
+    if [ $# = 0 ]
+    then pushd ~ >/dev/null
+	 [ $dirok = 1 ] && [ "$(pwd)" != "$(pwd -P)" ] && pushd "$(pwd -P)"
+	 ls
+	 return
+    fi
+    if [ "$1" = - ]
+    then popd >/dev/null
+	 dirs
+	 return
+    fi
+    pushd "$1" >/dev/null
+    [ $dirok = 1 ] && [ "$(pwd)" != "$(pwd -P)" ] && pushd "$(pwd -P)"
+    ls
+}
+
+
+#=== ewd ===
+if [ $(uname -o) = Cygwin ]; then
+#    if [ -n $(systeminfo.exe | grep 'OS Name:.*XP') ]; then
+    case "$(cmd /C ver | grep -iE 'Microsoft.*Windows' | grep -Pio 'Version \d'| grep -Pio '\d')" in 
+	5) alias ewd='explorer $(cygpath -w $(pwd))' ;;
+	6) alias ewd='cmd /c start.' ;;
+	*) echo my.bashrc: unknown version of microsoft windows, and therefore ewd is not set >&2;;
+    esac
+else
+    if [ -n "$(which caja)" ]; then
+	alias ewd='caja .'
+    else
+	echo my.bashrc: at unix, caja not found, and therefore ewd is not set >&2
+    fi
+fi
+
