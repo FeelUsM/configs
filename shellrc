@@ -94,7 +94,7 @@ mycd()
 	ls
 	return
     fi
-    if [ -n "$(echo ""$1"" | grep -xe '-*')" ]; then
+    if [ "$1" = - -o -n "$(echo "$1" | grep -xe '-*')" ]; then
 	local arg=$1
 	local tmp
 	while [ -n "$arg" ]; do
@@ -108,7 +108,7 @@ mycd()
 	dirs
 	return
     fi
-    if [ -n "$(echo ""$1"" | grep -xe '+*')" ]; then
+    if [ -n "$(echo "$1" | grep -xe '+*')" ]; then
 	local arg=$1
 	local tmp
 	while [ -n "$arg" ]; do
