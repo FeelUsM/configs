@@ -59,8 +59,6 @@ alias grep='grep --color=auto'
 #======== MY ALIASES ========
 source ~/scripts/aliases-and-functions
 
-alias cd=mycd
-alias dirs='dirs -p'
 
 #=== cygserver ===
 #echo cygwin threads, run by superuser
@@ -69,23 +67,64 @@ alias dirs='dirs -p'
 
 
 #=== mycd ===
+alias cd=mycd
+alias dirs='dirs -p'
+alias cd-='cd -'
+alias cd--='cd --'
+alias cd---='cd ---'
+alias cd----='cd ----'
+alias cd-----='cd -----'
+alias cd------='cd ------'
+alias cd+='cd +'
+alias cd++='cd ++'
+alias cd+++='cd +++'
+alias cd++++='cd ++++'
+alias cd+++++='cd +++++'
+alias cd++++++='cd ++++++'
+
 mycd()
 {
     local dirok=0
-    [ "$(pwd)" = "$(pwd -P)" ] && dirok=1
-    if [ $# = 0 ]
-    then pushd ~ >/dev/null
-	 [ $dirok = 1 ] && [ "$(pwd)" != "$(pwd -P)" ] && pushd "$(pwd -P)"
-	 ls
-	 return
+    [ "$(pwd)" = "$(pwd -P)" ] && dirok=1 # физ и логич пути к директории совпадают
+    if [ $# = 0 ]; then
+	pushd ~ >/dev/null
+	#если раньше совпадали, а теперь нет, то нужно сделать, чтобы они все-таки совпадали 
+	[ $dirok = 1 ] && [ "$(pwd)" != "$(pwd -P)" ] && pushd "$(pwd -P)"
+	DIRS2=
+	ls
+	return
     fi
-    if [ "$1" = - ]
-    then popd >/dev/null
-	 dirs
-	 return
+    if [ -n "$(echo ""$1"" | grep -xe '-*')" ]; then
+	local arg=$1
+	local tmp
+	while [ -n "$arg" ]; do
+	    read tmp < <(dirs) 
+	    push DIRS2 "$tmp"
+	    popd >/dev/null
+	    arg=${arg#-}
+	done
+
+	printf "%s\n---> " "$DIRS2"
+	dirs
+	return
+    fi
+    if [ -n "$(echo ""$1"" | grep -xe '+*')" ]; then
+	local arg=$1
+	local tmp
+	while [ -n "$arg" ]; do
+	    popto DIRS2 tmp
+	    [ -z "$tmp" ] && return
+	    pushd "$tmp" > /dev/null
+	    arg=${arg#+}
+	done
+	
+	printf "%s\n---> " "$DIRS2"
+	dirs
+	return
     fi
     pushd "$1" >/dev/null
     [ $dirok = 1 ] && [ "$(pwd)" != "$(pwd -P)" ] && pushd "$(pwd -P)"
+    DIRS2=
     ls
 }
 
