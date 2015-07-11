@@ -1,7 +1,7 @@
 #! /bin/bash
 if [ -f ~/.emacs -a ! -L ~/.emacs ]; then
     mv ~/.emacs ~/.emacs.bak
-    ln -s ~/configs/_emacs ~/.emacs
+    ln -s ~/configs/_emacs.el ~/.emacs
     echo ~/.emacs moved to ~/.emacs.bak
 else
     echo ~/.emacs - not exists or is symbolic link
