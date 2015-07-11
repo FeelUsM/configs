@@ -16,20 +16,20 @@ if [ -n "$ZSH_VERSION" ]; then
 fi
 
 
-#======== VARIABLES ===========
-#=== PATH ===
-[ -z "$(echo "$PATH" | grep "~/scripts")" ] &&
-	PATH="$PATH":"~/scripts"
-
-
 #=== xeon addres ===
 XEON=feelus@sanc.jinr.ru
 XEONSVN=svn+ssh://$XEON/usr/local/svn/sanc/fortran
 BASTION=fuskov@bastion.desy.de
 NAFHHH=fuskov@nafhh-atlas03.desy.de
 
+
+#=== PATH ===
+[ -z "$(echo "$PATH" | grep "$HOME/scripts")" ] &&
+	PATH="$PATH":"$HOME/scripts"
+
+
 #=== runcpp options ===
-export RUNCPP_OPTIONS="-I$YADISK_PATH/_programming/_src/include -std=c++11"
+export RUNCPP_OPTIONS="-std=c++11"
 
 #=== LANGuage ===
 export LANG=ru_RU.UTF-8
@@ -37,10 +37,17 @@ export LANGUAGE=ru
 export LC_NUMERIC=en_US.UTF-8
 
 #======== SELF ALIASES ========
+#=== grep ===
+[ -z "$(alias grep)" ] && alias grep='grep --color=auto' || alias grep
+
+#======== my aliases-and-functions ========
+source ~/scripts/aliases-and-functions
+
+
 #=== ls ===
-alias ls="ls --human-readable --escape --color=auto --group-directories-first"
-alias ll="ls -Al"
-alias la="ls -A"
+[ -z "$(alias ls)" ] && alias ls="ls --human-readable --escape --color=auto --group-directories-first" || alias ls
+[ -z "$(alias ll)" ] && alias ll="ls -Al" || alias ll
+[ -z "$(alias la)" ] && alias la="ls -A" || alias la
 
 #=== cd ===
 #alias cd='cd -P'
@@ -52,13 +59,6 @@ alias ..........="cd ../../../../.."
 alias ............="cd ../../../../../.."
 alias ..............="cd ../../../../../../.."
 alias ................="cd ../../../../../../../.."
-
-#=== grep ===
-alias grep='grep --color=auto'
-
-#======== MY ALIASES ========
-source ~/scripts/aliases-and-functions
-
 
 #=== cygserver ===
 #echo cygwin threads, run by superuser
@@ -145,3 +145,4 @@ else
     fi
 fi
 
+ls
