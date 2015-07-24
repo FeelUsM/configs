@@ -114,6 +114,8 @@ mycd()
 	while [ -n "$arg" ]; do
 	    popto DIRS2 tmp
 	    [ -z "$tmp" ] && return
+	    [ "$tmp" != "${tmp#\~}" ] && tmp=~"${tmp#\~}"
+	    #echo "$tmp"
 	    pushd "$tmp" > /dev/null
 	    arg=${arg#+}
 	done
