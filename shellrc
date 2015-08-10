@@ -38,16 +38,16 @@ export LC_NUMERIC=en_US.UTF-8
 
 #======== SELF ALIASES ========
 #=== grep ===
-[ -z "$(alias grep)" ] && alias grep='grep --color=auto' || alias grep
+[ -z "$(alias grep 2>/dev/null)" ] && alias grep='grep --color=auto' || alias grep
 
 #======== my aliases-and-functions ========
 source ~/scripts/aliases-and-functions
 
 
 #=== ls ===
-[ -z "$(alias ls)" ] && alias ls="ls --human-readable --escape --color=auto --group-directories-first" || alias ls
-[ -z "$(alias ll)" ] && alias ll="ls -Al" || alias ll
-[ -z "$(alias la)" ] && alias la="ls -A" || alias la
+[ -z "$(alias ls 2>/dev/null)" ] && alias ls="ls --human-readable --escape --color=auto --group-directories-first" || alias ls
+[ -z "$(alias ll 2>/dev/null)" ] && alias ll="ls -Al" || alias ll
+[ -z "$(alias la 2>/dev/null)" ] && alias la="ls -A" || alias la
 
 #=== cd ===
 #alias cd='cd -P'
