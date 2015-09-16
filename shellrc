@@ -29,7 +29,7 @@ NAFHHH=fuskov@nafhh-atlas03.desy.de
 
 
 #=== runcpp options ===
-export RUNCPP_OPTIONS="-std=c++11 -Wall"
+export RUNCPP_OPTIONS="-std=gnu++11 -Wall -Wno-parentheses"
 
 #=== LANGuage ===
 export LANG=ru_RU.UTF-8
