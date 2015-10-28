@@ -31,6 +31,9 @@ NAFHHH=fuskov@nafhh-atlas03.desy.de
 #=== runcpp options ===
 export RUNCPP_OPTIONS="-std=gnu++11 -Wall -Wno-parentheses"
 
+#=== notepad++ launcher ===
+alias npp='/cygdrive/c/Program\ Files\ \(x86\)/Notepad++/notepad++.exe'
+
 #=== LANGuage ===
 export LANG=ru_RU.UTF-8
 export LANGUAGE=ru
@@ -45,7 +48,7 @@ source ~/scripts/aliases-and-functions
 
 
 #=== ls ===
-[ -z "$(alias ls 2>/dev/null)" ] && alias ls="ls --human-readable --escape --color=auto --group-directories-first" || alias ls
+[ -z "$(alias ls 2>/dev/null)" ] && alias ls="ls --escape --color=auto --group-directories-first" || alias ls
 [ -z "$(alias ll 2>/dev/null)" ] && alias ll="ls -Al" || alias ll
 [ -z "$(alias la 2>/dev/null)" ] && alias la="ls -A" || alias la
 
