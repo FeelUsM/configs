@@ -31,15 +31,18 @@ NAFHHH=fuskov@nafhh-atlas03.desy.de
 #=== runcpp options ===
 export RUNCPP_OPTIONS="-std=gnu++11 -Wall -Wno-parentheses"
 
-#=== notepad++ launcher ===
-alias npp='/cygdrive/c/Program\ Files\ \(x86\)/Notepad++/notepad++.exe'
-
 #=== LANGuage ===
 export LANG=ru_RU.UTF-8
 export LANGUAGE=ru
 export LC_NUMERIC=en_US.UTF-8
 
+#=== notepad++ launcher ===
+alias npp='/cygdrive/c/Program\ Files\ \(x86\)/Notepad++/notepad++.exe'
+
 #======== SELF ALIASES ========
+#=== cp ===
+[ -z "$(alias cp 2>/dev/null)" ] && alias cp='cp -i' || alias cp
+
 #=== grep ===
 [ -z "$(alias grep 2>/dev/null)" ] && alias grep='grep --color=auto' || alias grep
 
@@ -150,4 +153,5 @@ else
     fi
 fi
 
+#=== do by start ===
 ls
