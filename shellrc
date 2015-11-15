@@ -40,6 +40,10 @@ export LC_NUMERIC=en_US.UTF-8
 alias npp='/cygdrive/c/Program\ Files\ \(x86\)/Notepad++/notepad++.exe'
 
 #======== SELF ALIASES ========
+#=== rm ===
+alias rm=rmt
+alias rmf=/usr/bin/rm
+
 #=== cp ===
 [ -z "$(alias cp 2>/dev/null)" ] && alias cp='cp -i' || alias cp
 
