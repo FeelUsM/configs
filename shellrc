@@ -48,7 +48,7 @@ alias rmf=/usr/bin/rm
 [ -z "$(alias cp 2>/dev/null)" ] && alias cp='cp -i' || alias cp
 
 #=== grep ===
-[ -z "$(alias grep 2>/dev/null)" ] && alias grep='grep --color=auto' || alias grep
+[ -z "$(alias grep 2>/dev/null)" ] && alias grep='grep --color=auto  --binary-files=text' || alias grep
 
 #======== my aliases-and-functions ========
 source ~/scripts/aliases-and-functions
