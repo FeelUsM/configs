@@ -1,6 +1,20 @@
 # -*- sh -*-
 #[[ -z ${MY_BASHRC_$SHLVL} ]] && CYG_SYS_BASHRC="1" || return
 
+shecho(){
+    #echo "$@"
+}
+shecho start shellrc 
+
+if [ "$LOGGING_RUNNING" != 1 ]; then
+    logdir=~/.shell-logging
+    mkdir -p $logdir
+    tt="$(date '+%Y-%m-%d %H-%M-%S')"
+    export LOGGING_RUNNING=1
+    script "$logdir/$tt-log" --timing="$logdir/$tt-timing" && exit
+fi
+shecho script started
+
 if [ -n "$ZSH_VERSION" ]; then
 #======= ZSH PROMPT =======
     autoload promptinit
@@ -14,7 +28,7 @@ if [ -n "$ZSH_VERSION" ]; then
     bindkey "^[[3~"   delete-char
     bindkey "^[3;5~"  delete-char
 fi
-
+shecho keydindings applied
 
 #=== xeon addres ===
 XEON=feelus@sanc.jinr.ru
@@ -35,6 +49,8 @@ export RUNCPP_OPTIONS="-std=gnu++11 -Wall -Wno-parentheses"
 export LANG=ru_RU.UTF-8
 export LANGUAGE=ru
 export LC_NUMERIC=en_US.UTF-8
+
+shecho variables setted
 
 #=== notepad++ launcher ===
 alias npp='/cygdrive/c/Program\ Files\ \(x86\)/Notepad++/notepad++.exe'
@@ -92,6 +108,8 @@ alias cd++++='cd ++++'
 alias cd+++++='cd +++++'
 alias cd++++++='cd ++++++'
 
+shecho aliases setted
+
 mycd()
 {
     local dirok=0
@@ -140,6 +158,7 @@ mycd()
     ls
 }
 
+shecho func mycd defined
 
 #=== ewd ===
 if [ $(uname -o) = Cygwin ]; then
@@ -156,6 +175,8 @@ else
 	echo my.bashrc: at unix, caja not found, and therefore ewd is not set >&2
     fi
 fi
+shecho ewd setted
 
 #=== do by start ===
+shecho ls started
 ls
