@@ -28,6 +28,11 @@ if [ -n "$ZSH_VERSION" ]; then
     bindkey '^[[H'    beginning-of-line
     bindkey "^[[3~"   delete-char
     bindkey "^[3;5~"  delete-char
+#=== zhelp ===
+	zhelp()
+	{
+		echo help "$@" | bash
+	}
 fi
 shecho keydindings applied
 
@@ -53,12 +58,47 @@ export LC_NUMERIC=en_US.UTF-8
 
 shecho variables setted
 
-#=== notepad++ launcher ===
-alias npp='/cygdrive/c/Program\ Files\ \(x86\)/Notepad++/notepad++.exe'
+#=== windows program launchers ===
+if [ $(uname -o) = Cygwin ]; then
+	winlaunch(){
+		command="$1"; shift
+		prefix="$2"; shift
+		if [ -n "$BASH_VERSION" ]; then
+			i=0;
+			while [ $# -gt 0 ]; do
+				arr[$i]="$prefix$(cygpath -m "$1")"
+				i=$(($i + 1))
+				shift
+			done
+			"$command" "${arr[@]}" 
+		else
+			if [ $# -gt 1 ] ; then
+				for arg in "$@" ; do
+					if [ "$arg" = '/cygdrive/*' ]; then
+						echo вот в bash так можно, а здесь с абсолютным путем только по одному аргументу >&2
+						return 1
+					fi
+				done
+				"$command" "$@"
+			else
+				"$command" "$prefix$(cygpath -m "$1")" 
+			fi
+		fi
+	}
+	npp(){
+		winlaunch	/cygdrive/c/Program\ Files\ \(x86\)/Notepad++/notepad++.exe "" "$@" 
+	}
+	firefox(){
+		winlaunch	/cygdrive/c/Program\ Files\ \(x86\)/Mozilla\ Firefox/firefox.exe "file:///" "$@"
+	}
+	opera(){
+		winlaunch	/cygdrive/c/Program\ Files\ \(x86\)/Opera/launcher.exe "file:///" "$@"
+	}
+fi
 
 #======== SELF ALIASES ========
 #=== rm ===
-alias rm=rmt
+alias rm=rm-to-trash
 alias rmf=/usr/bin/rm
 
 #=== cp ===
@@ -116,44 +156,44 @@ mycd()
     local dirok=0
     [ "$(pwd)" = "$(pwd -P)" ] && dirok=1 # физ и логич пути к директории совпадают
     if [ $# = 0 ]; then
-	pushd ~ >/dev/null
-	#если раньше совпадали, а теперь нет, то нужно сделать, чтобы они все-таки совпадали 
-	[ $dirok = 1 ] && [ "$(pwd)" != "$(pwd -P)" ] && pushd "$(pwd -P)"
-	DIRS2=
-	ls
-	return
+		pushd ~ >/dev/null 
+		#если раньше совпадали, а теперь нет, то нужно сделать, чтобы они все-таки совпадали 
+		[ $dirok = 1 ] && [ "$(pwd)" != "$(pwd -P)" ] && pushd "$(pwd -P)"
+		DIRS2=
+		ls
+		return
     fi
     if [ "$1" = - -o -n "$(echo "$1" | grep -xe '-*')" ]; then
-	local arg=$1
-	local tmp
-	while [ -n "$arg" ]; do
-	    read tmp < <(dirs) 
-	    push DIRS2 "$tmp"
-	    popd >/dev/null
-	    arg=${arg#-}
-	done
+		local arg=$1
+		local tmp
+		while [ -n "$arg" ]; do
+		    read tmp < <(dirs) 
+		    push DIRS2 "$tmp"
+		    popd >/dev/null
+		    arg=${arg#-}
+		done
 
-	printf "%s\n---> " "$DIRS2"
-	dirs
-	return
+		printf "%s\n---> " "$DIRS2"
+		dirs
+		return
     fi
     if [ -n "$(echo "$1" | grep -xe '+*')" ]; then
-	local arg=$1
-	local tmp
-	while [ -n "$arg" ]; do
-	    popto DIRS2 tmp
-	    [ -z "$tmp" ] && return
-	    [ "$tmp" != "${tmp#\~}" ] && tmp=~"${tmp#\~}"
-	    #echo "$tmp"
-	    pushd "$tmp" > /dev/null
-	    arg=${arg#+}
-	done
-	
-	printf "%s\n---> " "$DIRS2"
-	dirs
-	return
+		local arg=$1
+		local tmp
+		while [ -n "$arg" ]; do
+		    popto DIRS2 tmp
+		    [ -z "$tmp" ] && return
+		    [ "$tmp" != "${tmp#\~}" ] && tmp=~"${tmp#\~}"
+		    #echo "$tmp"
+		    pushd "$tmp" > /dev/null
+		    arg=${arg#+}
+		done
+		
+		printf "%s\n---> " "$DIRS2"
+		dirs
+		return
     fi
-    pushd "$1" >/dev/null
+    pushd "$1" >/dev/null || return -1
     [ $dirok = 1 ] && [ "$(pwd)" != "$(pwd -P)" ] && pushd "$(pwd -P)"
     DIRS2=
     ls
