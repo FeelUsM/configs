@@ -108,7 +108,7 @@ fi
 #======== SELF ALIASES ========
 #=== rm ===
 alias rm=rm-to-trash
-alias rmf=/usr/bin/rm
+alias rmf='env rm'
 
 #=== cp ===
 [ -z "$(alias cp 2>/dev/null)" ] && alias cp='cp -i' || alias cp
