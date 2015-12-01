@@ -12,7 +12,7 @@ if [ "$LOGGING_RUNNING" != 1 ]; then
     mkdir -p $logdir
     tt="$(date '+%Y-%m-%d %H-%M-%S')"
     export LOGGING_RUNNING=1
-    script "$logdir/$tt-log" --timing="$logdir/$tt-timing" && exit
+    script "$logdir/$tt-log" -f --timing="$logdir/$tt-timing" && exit
 fi
 shecho script started
 
