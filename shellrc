@@ -216,13 +216,13 @@ if [ $(uname -o) = Cygwin ]; then
     case "$(cmd /C ver | grep -iE 'Microsoft.*Windows' | grep -Pio 'Version \d'| grep -Pio '\d')" in 
 	5) alias ewd='explorer $(cygpath -w $(pwd))' ;;
 	6) alias ewd='cmd /c start.' ;;
-	*) echo my.bashrc: unknown version of microsoft windows, and therefore ewd is not set >&2;;
+	*) echo shellrc: unknown version of microsoft windows, and therefore ewd is not set >&2;;
     esac
 else
     if [ -n "$(which caja)" ]; then
 	alias ewd='caja .'
     else
-	echo my.bashrc: at unix, caja not found, and therefore ewd is not set >&2
+	echo shellrc: at unix, caja not found, and therefore ewd is not set >&2
     fi
 fi
 shecho ewd setted
