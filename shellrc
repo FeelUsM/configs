@@ -114,7 +114,7 @@ alias rmf='env rm'
 [ -z "$(alias cp 2>/dev/null)" ] && alias cp='cp -ir' || alias cp
 
 #=== mv ===
-[ -z "$(alias mv 2>/dev/null)" ] && alias mv='mv -r' || alias mv
+[ -z "$(alias mv 2>/dev/null)" ] && alias mv='mv -ir' || alias mv
 
 #=== grep ===
 [ -z "$(alias grep 2>/dev/null)" ] && alias grep='grep --color=auto  --binary-files=text' || alias grep
