@@ -17,5 +17,5 @@ linkto()
 linkto ~/.emacs ~/configs/_emacs.el
 linkto ~/.inputrc ~/configs/_inputrc
 
-[ -f ~/.bashrc ] && [ -z "$(grep 'source\ ~/configs/shellrc' ~/.bashrc)" ] && echo 'source ~/configs/shellrc' >> ~/.bashrc
-[ -f ~/.zshrc  ] && [ -z "$(grep 'source\ ~/configs/shellrc' ~/.zshrc )" ] && echo 'source ~/configs/shellrc' >> ~/.zshrc
+[ -f ~/.bashrc ] && [ -z "$(grep 'source\ ~/configs/shellrc' ~/.bashrc)" ] && echo 'source ~/configs/shellrc' >> ~/.bashrc || echo '~/.bashrc is epsent'
+[ -f ~/.zshrc  ] && [ -z "$(grep 'source\ ~/configs/shellrc' ~/.zshrc )" ] && echo 'source ~/configs/shellrc' >> ~/.zshrc || echo '~/.zshrc is epsent'
