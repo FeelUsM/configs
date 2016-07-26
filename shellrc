@@ -58,6 +58,7 @@ shecho variables setted
 
 #=== windows program launchers ===
 if [ $(uname -o) = Cygwin ]; then
+	[ -d "$(cygpath -u "$PROGRAMFILES (x86)")" ] && PROGRAMFILES="$PROGRAMFILES (x86)"
 	printargs(){
 		while [ $# -gt 0 ]; do
 			echo "$1"
