@@ -1,33 +1,33 @@
 # -*- sh -*-
 #[[ -z ${MY_BASHRC_$SHLVL} ]] && CYG_SYS_BASHRC="1" || return
 
-shecho(){
-    #echo "$@"
-    :
+shecho() { # для отладки
+	#echo "$@"
+	:
 }
 shecho start shellrc 
 
 if [ "$LOGGING_RUNNING" != 1 ]; then
-    logdir=~/.shell-logging
-    mkdir -p $logdir
-    tt="$(date '+%Y-%m-%d %H-%M-%S')"
-    export LOGGING_RUNNING=1
-    exec script "$logdir/$tt-log" -f --timing="$logdir/$tt-timing"
+	logdir=~/.shell-logging
+	mkdir -p $logdir
+	tt="$(date '+%Y-%m-%d %H-%M-%S')"
+	export LOGGING_RUNNING=1
+	exec script "$logdir/$tt-log" -f --timing="$logdir/$tt-timing"
 fi
 shecho script started
 
 if [ -n "$ZSH_VERSION" ]; then
 #======= ZSH PROMPT =======
-    autoload promptinit
-    promptinit
-    prompt adam2
+	autoload promptinit
+	promptinit
+	prompt adam2
 #======= ZSH keybindings =======
-    bindkey '^[[1;5C' emacs-forward-word
-    bindkey '^[[1;5D' emacs-backward-word
-    bindkey '^[[F'    end-of-line
-    bindkey '^[[H'    beginning-of-line
-    bindkey "^[[3~"   delete-char
-    bindkey "^[3;5~"  delete-char
+	bindkey '^[[1;5C' emacs-forward-word
+	bindkey '^[[1;5D' emacs-backward-word
+	bindkey '^[[F'    end-of-line
+	bindkey '^[[H'    beginning-of-line
+	bindkey "^[[3~"   delete-char
+	bindkey "^[3;5~"  delete-char
 #=== zhelp ===
 	zhelp()
 	{
@@ -42,11 +42,9 @@ XEONSVN=svn+ssh://$XEON/usr/local/svn/sanc/fortran
 BASTION=fuskov@bastion.desy.de
 NAFHHH=fuskov@nafhh-atlas03.desy.de
 
-
 #=== PATH ===
 [ -z "$(echo "$PATH" | grep "$HOME/scripts")" ] &&
 	PATH="$PATH":"$HOME/scripts"
-
 
 #=== runcpp options ===
 export RUNCPP_OPTIONS="-std=gnu++11 -Wall -Wno-parentheses"
@@ -94,27 +92,37 @@ if [ $(uname -o) = Cygwin ]; then
 			fi
 		fi
 	}
+	subl3(){
+		winlaunch	"$(cygpath -u "$ProgramW6432")/Dublime Text 3/sublime_text.exe" "" "$@" 
+	}
+	subl2(){
+		winlaunch	"$(cygpath -u "$PROGRAMFILES")/Dublime Text 2/sublime_text.exe" "" "$@" 
+	}
+	alias subl=subl3
 	npp(){
-		winlaunch	"$(cygpath -u "$PROGRAMFILES")"/Notepad++/notepad++.exe "" "$@" 
+		winlaunch	"$(cygpath -u "$PROGRAMFILES")/Notepad++/notepad++.exe" "" "$@" 
 	}
 	firefox(){
 		winlaunch	"$(cygpath -u "$PROGRAMFILES")/Mozilla Firefox/firefox.exe" "file:///" "$@"
 	}
 	opera(){
-		winlaunch	"$(cygpath -u "$PROGRAMFILES")"/Opera/launcher.exe "file:///" "$@"
+		winlaunch	"$(cygpath -u "$PROGRAMFILES")/Opera/launcher.exe" "file:///" "$@"
 	}
 fi
 
 #======== SELF ALIASES ========
 #=== rm ===
 alias rm=rm-to-trash
-alias rmf='env rm'
+alias rrm='env rm'
 
 #=== cp ===
 [ -z "$(alias cp 2>/dev/null)" ] && alias cp='cp -ir' || alias cp
+# спрашивать перед тем как переписывать (отменяет ранее указанный ключ -n)
+# рекурсивно копировать каталоги
 
 #=== mv ===
-[ -z "$(alias mv 2>/dev/null)" ] && alias mv='mv -ir' || alias mv
+[ -z "$(alias mv 2>/dev/null)" ] && alias mv='mv -i' || alias mv
+# спрашивать перед тем как переписывать
 
 #=== grep ===
 [ -z "$(alias grep 2>/dev/null)" ] && alias grep='grep --color=auto  --binary-files=text' || alias grep
@@ -125,8 +133,11 @@ source ~/scripts/aliases-and-functions
 
 #=== ls ===
 [ -z "$(alias ls 2>/dev/null)" ] && alias ls="ls --escape --color=auto --group-directories-first" || alias ls
-[ -z "$(alias ll 2>/dev/null)" ] && alias ll="ls -Al" || alias ll
+[ -z "$(alias ll 2>/dev/null)" ] && alias ll="ls -AlF" || alias ll
 [ -z "$(alias la 2>/dev/null)" ] && alias la="ls -A" || alias la
+# A - не скрывать файлы начинающиеся с .
+# l - использовать широкий формат
+# F - добавлять к имени файла индикатор (один из */=>@|)
 
 #=== cd ===
 #alias cd='cd -P'
@@ -165,50 +176,60 @@ shecho aliases setted
 
 mycd()
 {
-    local dirok=0
-    [ "$(pwd)" = "$(pwd -P)" ] && dirok=1 # физ и логич пути к директории совпадают
-    if [ $# = 0 ]; then
+	local dirok=0
+	[ "$(pwd)" = "$(pwd -P)" ] && dirok=1 # физ и логич пути к директории совпадают
+	# часть стека директорий хранит bash (это управляется pushd, popd, dirs)
+	# и часть - в $DIRS2
+
+	if [ $# = 0 ]; then # cd (без аргументов)
 		pushd ~ >/dev/null 
 		#если раньше совпадали, а теперь нет, то нужно сделать, чтобы они все-таки совпадали 
 		[ $dirok = 1 ] && [ "$(pwd)" != "$(pwd -P)" ] && pushd "$(pwd -P)"
 		DIRS2=
 		ls
 		return
-    fi
-    if [ "$1" = - -o -n "$(echo "$1" | grep -xe '-*')" ]; then
+	fi
+
+	if [ "$1" = - -o -n "$(echo "$1" | grep -xe '-*')" ]; then # cd ---
 		local arg=$1
 		local tmp
 		while [ -n "$arg" ]; do
-		    read tmp < <(dirs) 
-		    push DIRS2 "$tmp"
-		    popd >/dev/null
-		    arg=${arg#-}
+			read tmp < <(dirs) 
+			popd >/dev/null
+			[ $? != 0 ] && return
+			push DIRS2 "$tmp"
+			arg=${arg#-}
 		done
 
 		printf "%s\n---> " "$DIRS2"
 		dirs
+		ls
 		return
-    fi
-    if [ -n "$(echo "$1" | grep -xe '+*')" ]; then
+	fi
+
+	if [ -n "$(echo "$1" | grep -xe '+*')" ]; then # cd +++
 		local arg=$1
 		local tmp
 		while [ -n "$arg" ]; do
-		    popto DIRS2 tmp
-		    [ -z "$tmp" ] && return
-		    [ "$tmp" != "${tmp#\~}" ] && tmp=~"${tmp#\~}"
-		    #echo "$tmp"
-		    pushd "$tmp" > /dev/null
-		    arg=${arg#+}
+			popto DIRS2 tmp
+			[ -z "$tmp" ] && return
+			local home=~
+			[ "$tmp" != "${tmp#\~}" ] && tmp="$home${tmp#\~}"
+			#echo "$tmp"
+			pushd "$tmp" > /dev/null
+			arg=${arg#+}
 		done
 		
 		printf "%s\n---> " "$DIRS2"
 		dirs
+		ls
 		return
-    fi
-    pushd "$1" >/dev/null || return -1
-    [ $dirok = 1 ] && [ "$(pwd)" != "$(pwd -P)" ] && pushd "$(pwd -P)"
-    DIRS2=
-    ls
+	fi
+
+	pushd "$1" >/dev/null || return -1
+	[ $dirok = 1 ] && [ "$(pwd)" != "$(pwd -P)" ] && pushd "$(pwd -P)"
+	DIRS2=
+	ls
 }
 
 shecho func mycd defined
@@ -216,17 +237,19 @@ shecho func mycd defined
 #=== ewd ===
 if [ $(uname -o) = Cygwin ]; then
 #    if [ -n $(systeminfo.exe | grep 'OS Name:.*XP') ]; then
-    case "$(cmd /C ver | grep -iE 'Microsoft.*Windows' | grep -o '[0-9]\.[0-9]')" in 
+	case "$(cmd /C ver | grep -iE 'Microsoft.*Windows' | grep -o '[0-9]\.[0-9]')" in 
 	5*) alias ewd='explorer $(cygpath -w $(pwd))' ;;
 	6*) alias ewd='cmd /c start.' ;;
 	*) echo shellrc: unknown version of microsoft windows, and therefore ewd is not set >&2;;
-    esac
+	esac
 else
-    if [ -n "$(which caja)" ]; then
-	alias ewd='caja .'
-    else
-	echo shellrc: at unix, caja not found, and therefore ewd is not set >&2
-    fi
+	if [ -n "$(which caja)" ]; then
+		alias ewd='caja .'
+	elif [ -n "$(which nautilus)" ]; then
+		alias ewd='nautilus .'
+	else
+		echo shellrc: at unix, both caja and nautilus not found, and therefore commans \'ewd\' is not set >&2
+	fi
 fi
 shecho ewd setted
 
