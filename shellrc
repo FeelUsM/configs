@@ -112,30 +112,39 @@ if [ $(uname -o) = Cygwin ]; then
 fi
 
 #======== SELF ALIASES ========
+_check_alias() {
+	local tmp=$([ -n "$(alias $1 2>/dev/null)" ] && echo true || echo false)
+
+	$tmp && echo $(alias $1) replaced to
+	alias $1="$2"
+	$tmp && alias $1
+	$tmp && echo
+}
+
 #=== rm ===
 alias rm=rm-to-trash
 alias rrm='env rm'
 
 #=== cp ===
-[ -z "$(alias cp 2>/dev/null)" ] && alias cp='cp -ir' || alias cp
+_check_alias cp 'cp -ir'
 # спрашивать перед тем как переписывать (отменяет ранее указанный ключ -n)
 # рекурсивно копировать каталоги
 
 #=== mv ===
-[ -z "$(alias mv 2>/dev/null)" ] && alias mv='mv -i' || alias mv
+_check_alias mv 'mv -i'
 # спрашивать перед тем как переписывать
 
 #=== grep ===
-[ -z "$(alias grep 2>/dev/null)" ] && alias grep='grep --color=auto  --binary-files=text' || alias grep
+_check_alias grep 'grep --color=auto  --binary-files=text'
 
 #======== my aliases-and-functions ========
 source ~/scripts/aliases-and-functions
 
 
 #=== ls ===
-[ -z "$(alias ls 2>/dev/null)" ] && alias ls="ls --escape --color=auto --group-directories-first" || alias ls
-[ -z "$(alias ll 2>/dev/null)" ] && alias ll="ls -AlF" || alias ll
-[ -z "$(alias la 2>/dev/null)" ] && alias la="ls -A" || alias la
+_check_alias ls "ls --color=auto --group-directories-first --escape"
+_check_alias ll "ls -AlF"
+_check_alias la "ls -A"
 # A - не скрывать файлы начинающиеся с .
 # l - использовать широкий формат
 # F - добавлять к имени файла индикатор (один из */=>@|)
@@ -160,6 +169,7 @@ alias ................="cd ../../../../../../../.."
 #=== mycd ===
 alias cd=mycd
 alias dirs='dirs -p'
+# print the directory stack with one entry per line
 alias cd-='cd -'
 alias cd--='cd --'
 alias cd---='cd ---'
