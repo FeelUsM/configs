@@ -12,6 +12,7 @@ linkto ~/.inputrc ~/configs/_inputrc
 if [ -n "$(git --version)" ]; then
 	git config --global user.name FeelUs
 	git config --global user.email 'fel1992@mail.ru'
-	# git config --global что-то там еще ...
-	git config --global core.quotepath false
+	# git config --global что-то там еще ... 
+	git config --global core.quotepath false # по чловечески выводить unicode а не <число><число><число>
+	git config --global credential.helper 'cache --timeout 30000' # помнить пароль 8 часа
 fi
