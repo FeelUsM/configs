@@ -259,7 +259,7 @@ else
 	elif [ -n "$(which nautilus)" ]; then
 		alias ewd='nautilus .'
 	elif [ -n "$(which dolphin)" ]; then
-		alias ewd='dolphin . > /dev/null &'
+		alias ewd='dolphin . >/dev/null 2>&1 &'
 	else
 		echo shellrc: at unix, both caja and nautilus not found, and therefore commans \'ewd\' is not set >&2
 	fi
