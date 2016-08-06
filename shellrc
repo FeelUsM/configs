@@ -58,10 +58,9 @@ elif [ -n "$BASH_VERSION" ]; then
 		[ -n "$branch_name" ] && branch_name="/git:$branch_name"
 		local datetime=$(date +%H:%M)
 		local mc=36 # main color - magenta
-		local sc=35 # second color - cyan
 
 		_pecho "(j$2:" $mc
-		_pecho "$3" $sc
+		_pecho "$3" 1 # bold
 		_pecho "$branch_name)" $mc
 
 		[ $1 = 0 ] && (_ptpt 32; echo -n -) || (_ptpt 31; echo -n $1) # цвет и код возврата
@@ -70,7 +69,7 @@ elif [ -n "$BASH_VERSION" ]; then
 		done
 		_ptpt 0
 		_pecho "($4" $mc
-		_pecho "@$datetime" $sc
+		_pecho "@$datetime" 35 # cyan
 		_pecho ")" $mc
 	}
 
