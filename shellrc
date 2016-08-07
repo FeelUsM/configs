@@ -7,14 +7,14 @@ shecho() { # для отладки
 }
 shecho start shellrc 
 
-if [ "$LOGGING_RUNNING" != 1 ]; then
-	logdir=~/.shell-logging
-	mkdir -p $logdir
-	tt="$(date '+%Y-%m-%d %H-%M-%S')"
-	export LOGGING_RUNNING=1
-	exec script "$logdir/$tt-log" -f --timing="$logdir/$tt-timing"
-fi
-shecho script started
+# if [ "$LOGGING_RUNNING" != 1 ]; then
+# 	logdir=~/.shell-logging
+# 	mkdir -p $logdir
+# 	tt="$(date '+%Y-%m-%d %H-%M-%S')"
+# 	export LOGGING_RUNNING=1
+# 	exec script "$logdir/$tt-log" -f --timing="$logdir/$tt-timing"
+# fi
+# shecho script started
 
 if [ -n "$ZSH_VERSION" ]; then
 #======= ZSH PROMPT =======
