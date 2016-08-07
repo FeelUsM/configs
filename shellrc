@@ -155,8 +155,15 @@ if [ $(uname -o) = Cygwin ]; then
 fi
 
 #======== SELF ALIASES ========
-_check_alias() {
-	local tmp=$([ -n "$(alias $1 2>/dev/null)" ] && echo true || echo false)
+_check_alias() { # устанавливает алиас и выводит, если есть изменения (добавления изменениями не считаются)
+	local old_alias="$(alias $1 2>/dev/null)"
+	local new_alias="alias $1='$2'"
+	# echo
+	# echo old_alias = $old_alias
+	# echo new_alias = $new_alias
+	# echo 'diff      =' ${new_alias#${old_alias%\'}}
+
+	local tmp=$([ -z "$old_alias" -o "$old_alias" = "$new_alias" -o "${new_alias#${old_alias%\'}}" != "$new_alias" ] && echo false || echo true)
 
 	$tmp && echo $(alias $1) replaced to
 	alias $1="$2"
@@ -179,9 +186,11 @@ _check_alias mv 'mv -i'
 
 #=== grep ===
 _check_alias grep 'grep --color=auto  --binary-files=text -E'
+# расширенные регулярные выражения
 
 #=== sed ===
 _check_alias sed 'sed -r'
+# расширенные регулярные выражения
 
 #======== my aliases-and-functions ========
 source ~/scripts/aliases-and-functions
