@@ -65,7 +65,7 @@ elif [ -n "$BASH_VERSION" ]; then
 		_pecho "$branch_name)" $mc
 
 		[ $1 = 0 ] && (_ptpt 32; echo -n -) || (_ptpt 31; echo -n $1) # цвет и код возврата
-		for i in $(seq 1 $(($(tput cols) - $(echo "($job_info$3$branch_name)$1($4@$datetime)" | wc -c)))); do
+		for i in $(seq 1 $(($(tput cols) - $(echo "($job_info$3$branch_name)$1($4@$datetime)" | wc -m)))); do
 			echo -n -
 		done
 		_ptpt 0
