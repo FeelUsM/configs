@@ -34,6 +34,7 @@ if [ -n "$ZSH_VERSION" ]; then
 		echo help "$@" | bash
 	}
 elif [ -n "$BASH_VERSION" ]; then
+#======= BASH PROMPT =======
 	_ptpt() { # prompt tput
 		# echo -n $'\[\e['
 		echo -n $'\e['
@@ -177,7 +178,10 @@ _check_alias mv 'mv -i'
 # спрашивать перед тем как переписывать
 
 #=== grep ===
-_check_alias grep 'grep --color=auto  --binary-files=text'
+_check_alias grep 'grep --color=auto  --binary-files=text -E'
+
+#=== sed ===
+_check_alias sed 'sed -r'
 
 #======== my aliases-and-functions ========
 source ~/scripts/aliases-and-functions
