@@ -1,6 +1,9 @@
 # -*- sh -*-
 #[[ -z ${MY_BASHRC_$SHLVL} ]] && CYG_SYS_BASHRC="1" || return
 
+#======== my aliases-and-functions ========
+source ~/scripts/aliases-and-functions
+
 shecho() { # для отладки
 	#echo "$@"
 	:
@@ -194,10 +197,6 @@ _check_alias grep 'grep --color=auto  --binary-files=text -E'
 #=== sed ===
 _check_alias sed 'sed -r'
 # расширенные регулярные выражения
-
-#======== my aliases-and-functions ========
-source ~/scripts/aliases-and-functions
-
 
 #=== ls ===
 _check_alias ls "ls --color=auto --group-directories-first --escape"
