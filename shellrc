@@ -79,6 +79,9 @@ elif [ -n "$BASH_VERSION" ]; then
 fi
 shecho keydindings applied
 
+#=== PROMPT_COMMAND ===
+export PROMPT_COMMAND='hpwd=$(history 1); hpwd="${hpwd# *[0-9]*  }"; hpwd="$(date '+%d/%m/%Y %H:%M:%S') # $PWD > ${hpwd% ### *}"; echo $hpwd >> /home/$USER/.extended_history'
+
 #=== xeon addres ===
 XEON=feelus@sanc.jinr.ru
 XEONSVN=svn+ssh://$XEON/usr/local/svn/sanc/fortran
