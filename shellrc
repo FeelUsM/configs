@@ -90,7 +90,7 @@ fi
 shecho keydindings applied
 
 #=== PROMPT_COMMAND ===
-PROMPT_COMMAND='hpwd=$(history 1); hpwd="${hpwd# *[0-9]*  }"; hpwd="$(date "+%d/%m/%Y %H:%M:%S") # $PWD > ${hpwd% ### *}"; echo $hpwd >> /home/$USER/.extended_history'
+PROMPT_COMMAND='hpwd=$(history 1); hpwd="${hpwd# *[0-9]*  }"; hpwd="$(date "+%d/%m/%Y %H:%M:%S") # $PWD > ${hpwd% ### *}"; echo $hpwd >> ~/.extended_history'
 
 #=== xeon addres ===
 XEON=feelus@sanc.jinr.ru
