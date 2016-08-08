@@ -59,7 +59,7 @@ elif [ -n "$BASH_VERSION" ]; then
 		local _cp=$(curpos)
 
 		if [ "${_cp#*;}" != 1 ]; then
-			_pecho '<~~~~' 1 # bold
+			_pecho '<' 1 31 # bold
 			echo
 		fi
 
