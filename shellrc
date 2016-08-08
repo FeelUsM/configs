@@ -282,7 +282,7 @@ mycd()
 		return
 	fi
 
-	if [ -n "$(echo "$1" | grep -xe '+*')" ]; then # cd +++
+	if [ -n "$(echo "$1" | grep -xe '\+*')" ]; then # cd +++
 		local arg=$1
 		local tmp
 		while [ -n "$arg" ]; do
@@ -290,7 +290,7 @@ mycd()
 			[ -z "$tmp" ] && return
 			local home=~
 			[ "$tmp" != "${tmp#\~}" ] && tmp="$home${tmp#\~}"
-			#echo "$tmp"
+			# echo "$tmp"
 			pushd "$tmp" > /dev/null
 			arg=${arg#+}
 		done
