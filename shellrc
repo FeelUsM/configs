@@ -314,8 +314,8 @@ if [ $(uname -o) = Cygwin ]; then
 #    if [ -n $(systeminfo.exe | grep 'OS Name:.*XP') ]; then
 	case "$(cmd /C ver | grep -iE 'Microsoft.*Windows' | grep -o '[0-9]\.[0-9]')" in 
 	5*) alias ewd='explorer $(cygpath -w $(pwd))' ;;
-	6*) alias ewd='cmd /c start.' ;;
-	*) echo shellrc: unknown version of microsoft windows, and therefore ewd is not set >&2;;
+	*) alias ewd='cmd /c start.' ;;
+	#*) echo shellrc: unknown version of microsoft windows, and therefore ewd is not set >&2;;
 	esac
 else
 	if [ -n "$(which caja)" ]; then
