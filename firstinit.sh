@@ -8,8 +8,8 @@ linkto ~/.inputrc ~/configs/_inputrc
 mkdir -p ~/.xneur/
 linkto ~/.xneur/xneurrc ~/configs/xneurrc
 
-[ -f ~/.bashrc ] && append_line 'source\ ~/configs/shellrc' ~/.bashrc || echo '~/.bashrc is epsent'
-[ -f ~/.zshrc  ] && append_line 'source\ ~/configs/shellrc' ~/.zshrc  || echo '~/.zshrc is epsent'
+[ -f ~/.bashrc ] && append_line 'source ~/configs/shellrc' ~/.bashrc || echo '~/.bashrc is epsent'
+[ -f ~/.zshrc  ] && append_line 'source ~/configs/shellrc' ~/.zshrc  || echo '~/.zshrc is epsent'
 
 if [ -n "$(git --version)" ]; then
 	git config --global user.name FeelUs
