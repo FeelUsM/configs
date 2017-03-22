@@ -17,4 +17,8 @@ if [ -n "$(git --version)" ]; then
 	# git config --global что-то там еще ... 
 	git config --global core.quotepath false # по чловечески выводить unicode а не <число><число><число>
 	git config --global credential.helper 'cache --timeout 30000' # помнить пароль 8 часа
+	git config --global alias.ch checkout
+	git config --global alias.co commit
+	git config --global alias.st status
+	git config --global alias.br dranch
 fi
