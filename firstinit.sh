@@ -20,5 +20,5 @@ if [ -n "$(git --version)" ]; then
 	git config --global alias.ch checkout
 	git config --global alias.co commit
 	git config --global alias.st status
-	git config --global alias.br dranch
+	git config --global alias.br branch
 fi
