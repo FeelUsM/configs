@@ -151,10 +151,10 @@ if [ $(uname -o) = Cygwin ]; then
 		fi
 	}
 	subl3(){
-		winlaunch	"$(cygpath -u "$ProgramW6432")/Dublime Text 3/sublime_text.exe" "" "$@" 
+		winlaunch	"$(cygpath -u "$ProgramW6432")/Sublime Text 3/subl.exe" "" "$@" 
 	}
 	subl2(){
-		winlaunch	"$(cygpath -u "$PROGRAMFILES")/Dublime Text 2/sublime_text.exe" "" "$@" 
+		winlaunch	"$(cygpath -u "$PROGRAMFILES")/Sublime Text 2/sublime_text.exe" "" "$@" 
 	}
 	alias subl=subl3
 	npp(){
