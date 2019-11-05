@@ -186,8 +186,9 @@ _check_alias() { # устанавливает алиас и выводит, ес
 }
 
 #=== rm ===
-alias rm=rm-to-trash
-alias rrm='env rm'
+#alias rm=rm-to-trash
+alias rmt=rm-to-trash
+#alias rrm='env rm'
 
 #=== cp ===
 _check_alias cp 'cp -ir'
