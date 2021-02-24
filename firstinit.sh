@@ -1,15 +1,24 @@
 #! /bin/bash
 
 source ~/scripts/aliases-and-functions
-# for linkto() and append_line() 
+# for linksave() and append_ifnot_line() 
 
-linkto ~/.emacs ~/configs/_emacs.el
-linkto ~/.inputrc ~/configs/_inputrc
-mkdir -p ~/.xneur/
-linkto ~/.xneur/xneurrc ~/configs/xneurrc
+linksave ~/configs/_emacs.el ~/.emacs
+linksave ~/configs/_inputrc ~/.inputrc
 
-[ -f ~/.bashrc ] && append_line 'source ~/configs/shellrc' ~/.bashrc || echo '~/.bashrc is epsent'
-[ -f ~/.zshrc  ] && append_line 'source ~/configs/shellrc' ~/.zshrc  || echo '~/.zshrc is epsent'
+if [ $(uname -o) = GNU/Linux ]; then
+	mkdir -p ~/.xneur/
+	linksave ~/configs/xneurrc ~/.xneur/xneurrc
+fi
+
+if [ -n "$BASH_VERSION" ]; then
+	[ -f ~/.bashrc ] && append_ifnot_line 'source ~/configs/shellrc' ~/.bashrc || ln ~/configs/shellrc ~/.bashrc
+elif [ -n "$ZSH_VERSION" ]; then
+	[ -f ~/.zshrc  ] && append_ifnot_line 'source ~/configs/shellrc' ~/.zshrc  || ln ~/configs/shellrc ~/.zshrc
+else
+	[ -f ~/.bashrc ] && append_ifnot_line 'source ~/configs/shellrc' ~/.bashrc || echo '~/.bashrc is epsent'
+	[ -f ~/.zshrc  ] && append_ifnot_line 'source ~/configs/shellrc' ~/.zshrc  || echo '~/.zshrc is epsent'
+fi
 
 if [ -n "$(git --version)" ]; then
 	git config --global user.name FeelUs

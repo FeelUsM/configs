@@ -3,8 +3,8 @@ my config settings
 
 на чистом компьютере запускаем скрипт firstinit.sh
    он создает симлинки 
-   linkto ~/.emacs ~/configs/_emacs.el
-   linkto ~/.inputrc ~/configs/_inputrc
+   linksave ~/.emacs ~/configs/_emacs.el
+   linksave ~/configs/_inputrc ~/.inputrc
    (если такие файлы уже есть и они не симлинки, они переименовываются)
    а еще в .bashrc и .zshrc добавляется вызов shellrc (если его нету)
 
