@@ -176,13 +176,13 @@ if [ $(uname -o) = Cygwin ]; then
 	}
 	alias subl=subl3
 	npp(){
-		winlaunch	"$(cygpath -u "$PROGRAMFILES")/Notepad++/notepad++.exe" "" "$@" 
+		winlaunch	"$(cygpath -u "$ProgramW6432")/Notepad++/notepad++.exe" "" "$@" 
 	}
 	firefox(){
-		winlaunch	"$(cygpath -u "$PROGRAMFILES")/Mozilla Firefox/firefox.exe" "file:///" "$@"
+		winlaunch	"$(cygpath -u "$ProgramW6432")/Mozilla Firefox/firefox.exe" "file:///" "$@"
 	}
 	opera(){
-		winlaunch	"$(cygpath -u "$PROGRAMFILES")/Opera/launcher.exe" "file:///" "$@"
+		winlaunch	"$(cygpath -u "$ProgramW6432")/Opera/launcher.exe" "file:///" "$@"
 	}
 fi
 
