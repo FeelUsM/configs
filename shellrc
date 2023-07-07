@@ -81,7 +81,7 @@ elif [ -n "$BASH_VERSION" ]; then
 		#echo -n $'\e[36m'"($shlvl$job_info"
 
 		[ $1 = 0 ] && (_ptpt 32; echo -n -) || (_ptpt 31; echo -n $1) # цвет и код возврата
-		for i in $(seq 1 $(($(tput cols) - $(echo "($shlvl$job_info$3$branch_name)$1($4@$datetime) " | wc -m)))); do
+		for i in $(seq 1 $(($(tput cols) - $(echo "(base) ($shlvl$job_info$3$branch_name)$1($4@$datetime) " | wc -m)))); do
 		                                            # !!! !!! !!!
 			echo -n -
 		done
@@ -227,7 +227,7 @@ _check_alias sed 'sed -r'
 
 #=== ls ===
 _check_alias ls "ls --color=auto --group-directories-first --escape"
-_check_alias ll "ls -AlF"
+_check_alias ll "ls -AlFh"
 _check_alias la "ls -A"
 # A - не скрывать файлы начинающиеся с .
 # l - использовать широкий формат
