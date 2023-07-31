@@ -338,11 +338,11 @@ if [ $(uname -o) = Cygwin ]; then
 	#*) echo shellrc: unknown version of microsoft windows, and therefore ewd is not set >&2;;
 	esac
 else
-	if [ -n "$(which caja)" ]; then
+	if [ -n "$(which caja 2>/dev/null)" ]; then
 		alias ewd='caja .'
-	elif [ -n "$(which nautilus)" ]; then
+	elif [ -n "$(which nautilus 2>/dev/null)" ]; then
 		alias ewd='nautilus .'
-	elif [ -n "$(which dolphin)" ]; then
+	elif [ -n "$(which dolphin 2>/dev/null)" ]; then
 		alias ewd='dolphin . >/dev/null 2>&1 &'
 	else
 		echo shellrc: at unix, caja, nautilus and dolphin not found, and therefore commans \'ewd\' is not set >&2
