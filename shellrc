@@ -61,7 +61,7 @@ elif [ -n "$BASH_VERSION" ]; then
 		if [ "${_cp#*;}" != 1 ]; then
 			#_pecho '<' 1 31 # bold
 			#echo
-			echo $'\e['1;31;m<$'\e['m
+			echo $'\e['1\;31\;m\<$'\e['m
 		fi
 
 		# echo $(tput cols) $(echo "$2$3" | wc -c) $(($(tput cols) - $(echo "$2$3" | wc -c)))
