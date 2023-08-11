@@ -218,7 +218,7 @@ _check_alias mv 'mv -i'
 # спрашивать перед тем как переписывать
 
 #=== grep ===
-_check_alias grep 'grep --color=auto  --binary-files=text -E'
+_check_alias grep 'grep --color=auto -E'
 # расширенные регулярные выражения
 
 #=== sed ===
